@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
+    <title>Add Equipment</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<h1>Add something:</h1>
+<form th:action="@{/equipment/new}" method="post" th:object="${equipment}">
+    <input type="hidden" th:field="*{equipmentId}">
+    <table>
+        <tr>
+            <td><label>Name
+                <input type="text" th:field="*{name}"/>
+            </label></td>
+            <td><label>Type
+                <input type="text" th:field="*{type}"/>
+            </label></td>
+            <td><label>Size
+                <input type="text" th:field="*{size}"/>
+            </label></td>
+            <td><label>Brand
+                <input type="text" th:field="*{brand}"/>
+            </label></td>
+            <td><label>Certification
+                <input type="text" th:field="*{certification}"/>
+            </label></td>
+        </tr>
+    </table>
+    <br>
+    <input type="submit" value="Save Equipment"/>
+</form>
+<br>
+<a href="http://localhost:8080/">Return to Overview without saving.</a>
+
+</body>
+</html>

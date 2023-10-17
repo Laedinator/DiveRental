@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
+    <title>Equipment Details</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<h1>Details of <span th:text="${equipmentDetails.name}"></span> <span th:text="${equipmentDetails.type}"></span></h1>
+<table>
+    <tr>
+        <th>Size:</th>
+        <td th:text="${equipmentDetails.size}"></td>
+    </tr>
+    <tr>
+        <th>Brand:</th>
+        <td th:text="${equipmentDetails.brand}"></td>
+    </tr>
+    <tr>
+        <th>Certification:</th>
+        <td th:text="${equipmentDetails.certification}"></td>
+    </tr>
+    <tr>
+        <th>Available:</th>
+        <td th:text="${equipmentDetails.numberOfAvailableRentals}"></td>
+    </tr>
+</table>
+<br>
+<a th:href="@{/equipment/edit/{equipmentName}(equipmentName=${equipmentDetails.name})}">Edit Equipment</a>
+
+<br>
+<br>
+<table>
+    <tr>
+        <th>ID:</th>
+        <th>Availability:</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="rental : ${equipmentDetails.rentals}">
+        <td th:text="${rental.rentalId}"></td>
+        <td th:if="${rental.available}">
+            <a th:href="@{/rental/borrow/{rentalid}(rentalid=${rental.rentalId})}">Borrow</a>
+        </td>
+        <td th:unless="${rental.available}">
+            <a th:href="@{/rental/return/{rentalId}(rentalId=${rental.rentalId})}">Return</a>
+        </td>
+        <td><a th:href="@{/rental/delete/{rentalId}(rentalId=${rental.rentalId})}">Delete</a></td>
+    </tr>
+</table>
+
+<br>
+<a href="http://localhost:8080/">Return to Overview</a>
+</body>
+</html>
