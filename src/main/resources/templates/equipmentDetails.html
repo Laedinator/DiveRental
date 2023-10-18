@@ -1,54 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
-    <title>Equipment Details</title>
-    <link rel="stylesheet" href="../css/styles.css">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/general :: baseHeader(~{:: title})">
+    <title>Equipment-details</title>
 </head>
 <body>
-<h1>Details of <span th:text="${equipmentDetails.name}"></span> <span th:text="${equipmentDetails.type}"></span></h1>
-<table>
-    <tr>
-        <th>Size:</th>
-        <td th:text="${equipmentDetails.size}"></td>
-    </tr>
-    <tr>
-        <th>Brand:</th>
-        <td th:text="${equipmentDetails.brand}"></td>
-    </tr>
-    <tr>
-        <th>Certification:</th>
-        <td th:text="${equipmentDetails.certification}"></td>
-    </tr>
-    <tr>
-        <th>Available:</th>
-        <td th:text="${equipmentDetails.numberOfAvailableRentals}"></td>
-    </tr>
-</table>
-<br>
-<a th:href="@{/equipment/edit/{equipmentName}(equipmentName=${equipmentDetails.name})}">Edit Equipment</a>
+<div th:replace="fragments/general :: navbar"></div>
 
-<br>
-<br>
-<table>
-    <tr>
-        <th>ID:</th>
-        <th>Availability:</th>
-        <th>Delete</th>
-    </tr>
-    <tr th:each="rental : ${equipmentDetails.rentals}">
-        <td th:text="${rental.rentalId}"></td>
-        <td th:if="${rental.available}">
-            <a th:href="@{/rental/borrow/{rentalid}(rentalid=${rental.rentalId})}">Borrow</a>
-        </td>
-        <td th:unless="${rental.available}">
-            <a th:href="@{/rental/return/{rentalId}(rentalId=${rental.rentalId})}">Return</a>
-        </td>
-        <td><a th:href="@{/rental/delete/{rentalId}(rentalId=${rental.rentalId})}">Delete</a></td>
-    </tr>
-</table>
+<div class="container">
+    <h1>Details of <span th:text="${equipment.name}"></span> <span th:text="${equipment.type}"></span>
+    </h1>
+    <table>
+        <tr>
+            <th>Size:</th>
+            <td th:text="${equipment.size}"></td>
+        </tr>
+        <tr>
+            <th>Brand:</th>
+            <td th:text="${equipment.brand}"></td>
+        </tr>
+        <tr>
+            <th>Certification:</th>
+            <td th:text="${equipment.certification.name}"></td>
+        </tr>
+        <tr>
+            <th>Available:</th>
+            <td th:text="${equipment.numberOfAvailableRentals}"></td>
+        </tr>
+    </table>
+    <br>
+    <a class="btn btn-primary" th:href="@{/equipment/edit/{equipmentName}(equipmentName=${equipment.name})}">Edit
+        Equipment</a>
 
-<br>
-<a href="http://localhost:8080/">Return to Overview</a>
+    <br>
+    <br>
+    <table class="table-sm table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Availability</th>
+            <th>Delete</th>
+            <th>Rented by</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="rental : ${equipment.rentals}">
+            <td th:text="${rental.rentalId}"></td>
+            <td th:if="${rental.available}">
+                <a class="btn btn-primary"
+                   th:href="@{/rental/borrow/{rentalid}(rentalid=${rental.rentalId})}">Borrow</a>
+            </td>
+            <td th:unless="${rental.available}">
+                <a class="btn btn-primary"
+                   th:href="@{/rental/return/{rentalId}(rentalId=${rental.rentalId})}">Return</a>
+            </td>
+            <td><a class="btn btn-danger" th:href="@{/rental/delete/{rentalId}(rentalId=${rental.rentalId})}">Delete</a>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <a class="btn btn-secondary" href="http://localhost:8080/">Return to Overview</a>
+</div>
+<div th:replace="fragments/general :: footer"></div>
+<div th:replace="fragments/general :: bottomScripts"></div>
 </body>
 </html>

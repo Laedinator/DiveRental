@@ -3,11 +3,8 @@ package nl.miwnn.se12.marc.DiveEquipmentRental.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.List;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @author Marc Ledermann
@@ -23,14 +20,32 @@ public class Equipment {
     @GeneratedValue
     private Long equipmentId;
 
+    @Column(nullable = false)
     private String name;
     private String type;
     private String size;
     private String brand;
-    private String certification;
+
+    @ManyToOne
+    private Certification certification;
+
+    @ManyToMany
+    private Set<Diver> divers;
 
     @OneToMany(mappedBy = "equipment")
-    private List<Rental> rentals;
+    private Set<Rental> rentals;
+
+
+    public Equipment(String name, String type, String size, String brand, Certification mpCertification) {
+        this.name = name;
+        this.type = type;
+        this.size = size;
+        this.brand = brand;
+        this.certification = mpCertification;
+    }
+
+    public Equipment() {
+    }
 
     public int getNumberOfAvailableRentals() {
         int count = 0;
@@ -41,4 +56,14 @@ public class Equipment {
         }
         return count;
     }
+
+    public String getAllDiversDisplayString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Diver diver : divers) {
+            stringBuilder.append(diver.getDisplayName()).append(", ");
+        }
+        return stringBuilder.toString();
+    }
+
 }

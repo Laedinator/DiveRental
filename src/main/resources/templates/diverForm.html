@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/general :: baseHeader(~{:: title})">
-    <title>Equipment Form</title>
+    <title>Add or Edit a Diver</title>
 </head>
 <body>
 <div th:replace="fragments/general :: navbar"></div>
 <div class="container">
-    <h1>Add new Equipment:</h1>
+    <h1>Add or edit a Diver</h1>
+    <p>Please fill in the form.</p>
     <div class="container-sm">
-        <form class="row gy-2 gx-3 align-items-center" th:action="@{/equipment/new}" method="post"
-              th:object="${equipment}">
-            <input type="hidden" th:field="*{equipmentId}">
+        <form class="row gy-2 gx-3 align-items-center" th:action="@{/diver/new}" method="post"
+              th:object="${diver}">
+            <input type="hidden" th:field="*{diverId}">
 
             <div class="col-auto">
-                <label for="equipmentName" class="form-label col-sm-2">Name</label>
-                <input id="equipmentName" type="text" th:field="*{name}"/>
+                <label for="firstName" class="form-label col-sm-2">First Name</label>
+                <input id="firstName" type="text" th:field="*{firstName}"/>
             </div>
             <div class="col-auto">
-                <label for="equipmentType" class="form-label col-sm-2">Type </label>
-                <input id="equipmentType" type="text" th:field="*{type}"/>
+                <label for="middleName" class="form-label col-sm-2">Middle Name </label>
+                <input id="middleName" type="text" th:field="*{middleName}"/>
             </div>
             <div class="col-auto">
-                <label for="equipmentSize" class="form-label col-sm-2">Size</label>
-                <input id="equipmentSize" type="text" th:field="*{size}"/>
-            </div>
-            <div class="col-auto">
-                <label for="equipmentBrand" class="form-label col-sm-2">Brand </label>
-                <input id="equipmentBrand" type="text" th:field="*{brand}"/>
+                <label for="lastName" class="form-label col-sm-2">Last Name</label>
+                <input id="lastName" type="text" th:field="*{lastName}"/>
             </div>
             <div class="col-lg-1">
                 <label for="certifications" class="form-label col-sm-4">Certifications</label>
@@ -38,18 +35,17 @@
                         </option>
                     </select>
                 </div>
-
             </div>
             <br>
             <div class="col-xxl">
-                <input class="btn btn-primary" type="submit" value="Save Equipment"/>
+                <input class="btn btn-primary" type="submit" value="Save Diver"/>
             </div>
         </form>
         <br>
-        <a class="btn btn-danger" href="/overview">Return to Overview without saving.</a>
+        <a class="btn btn-danger" href="/diver/all">Return to Diver Overview without saving</a>
     </div>
-
 </div>
+
 <div th:replace="fragments/general :: footer"></div>
 <div th:replace="fragments/general :: bottomScripts"></div>
 </body>

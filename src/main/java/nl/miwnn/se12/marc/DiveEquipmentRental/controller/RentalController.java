@@ -3,11 +3,13 @@ package nl.miwnn.se12.marc.DiveEquipmentRental.controller;
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Equipment;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Rental;
+import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.EquipmentRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.RentalRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 
@@ -20,12 +22,13 @@ import java.util.Optional;
  **/
 
 @Controller
+@RequestMapping("/rental")
 @RequiredArgsConstructor
 public class RentalController {
     private final EquipmentRepository equipmentRepository;
     private final RentalRepository rentalRepository;
 
-    @GetMapping("/rental/new/{equipmentId}")
+    @GetMapping("/new/{equipmentId}")
     private String createNewRental(@PathVariable("equipmentId") Long equipmentId) {
         Optional<Equipment> equipmentOptional = equipmentRepository.findById(equipmentId);
 
@@ -38,7 +41,7 @@ public class RentalController {
         return "redirect:/";
     }
 
-    @GetMapping("/rental/delete/{rentalId}")
+    @GetMapping("/delete/{rentalId}")
     private String deleteRental(@PathVariable("rentalId") Long rentalId) {
         Optional<Rental> rentalOptional = rentalRepository.findById(rentalId);
 
@@ -50,12 +53,12 @@ public class RentalController {
         return String.format("redirect:/equipment/details/%s", rentalOptional.get().getEquipment().getName());
     }
 
-    @GetMapping("rental/borrow/{rentalId}")
+    @GetMapping("/borrow/{rentalId}")
     private String makeRentalUnavailable(@PathVariable("rentalId") Long rentalId) {
         return getString(rentalId, false);
     }
 
-    @GetMapping("rental/return/{rentalId}")
+    @GetMapping("/return/{rentalId}")
     private String makeRentalAvailable(@PathVariable("rentalId") Long rentalId) {
         return getString(rentalId, true);
     }

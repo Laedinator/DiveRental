@@ -1,36 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
-    <title>EquipmentOverview</title>
-    <link rel="stylesheet" href="../css/styles.css">
-
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/general :: baseHeader(~{:: title})">
+    <title>Equipment Overview</title>
 </head>
 <body>
-<h1>We have the following available:</h1>
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Size</th>
-        <th>Brand</th>
-        <th>Certification</th>
-        <th>Available</th>
-        <th>Add Rental</th>
-    </tr>
-    <tr th:each="equipment : ${allEquipment}">
-        <td><a th:href="@{equipment/details/{equipmentName}(equipmentName=${equipment.name})}"
-               th:text="${equipment.name}"></a></td>
-        <td th:text="${equipment.type}"></td>
-        <td th:text="${equipment.size}"></td>
-        <td th:text="${equipment.brand}"></td>
-        <td th:text="${equipment.certification}"></td>
-        <td th:text="${equipment.numberOfAvailableRentals}"></td>
-        <td><a th:href="@{rental/new/{equipmentId}(equipmentId=${equipment.equipmentId})}">Add</a></td>
-    </tr>
-</table>
-<br>
-<a href="/equipment/new">Add new Equipment.</a>
+<div th:replace="fragments/general :: navbar"></div>
+
+<div class="container">
+    <h1>We have the following available:</h1>
+
+    <table class="table-sm table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Brand</th>
+            <th>Minimal<br>Certification</th>
+            <th>Available</th>
+            <th>Add Rental</th>
+            <th>Rented By</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="equipment : ${allEquipment}">
+            <td><a th:href="@{/details/{equipmentName}(equipmentName=${equipment.name})}"
+                   th:text="${equipment.name}"></a></td>
+            <td th:text="${equipment.type}"></td>
+            <td th:text="${equipment.size}"></td>
+            <td th:text="${equipment.brand}"></td>
+            <td th:text="${equipment.certification.name}"></td>
+            <td th:text="${equipment.numberOfAvailableRentals}"></td>
+            <td><a class="btn btn-primary"
+                   th:href="@{rental/new/{equipmentId}(equipmentId=${equipment.equipmentId})}">Add</a></td>
+            <td th:text="${equipment.getAllDiversDisplayString()}"></td>
+        </tr>
+    </table>
+    <br>
+    <a class="btn btn-secondary" href="/equipment/new">Add new Equipment</a>
+    <br>
+    <br>
+    <a class="btn btn-danger" href="/initialise">initialise</a>
+</div>
+<div th:replace="fragments/general :: footer"></div>
+<div th:replace="fragments/general :: bottomScripts" ></div>
 </body>
 </html>

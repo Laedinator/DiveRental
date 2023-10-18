@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/general :: baseHeader(~{:: title})">
+    <title>Diver Overview</title>
+</head>
+<body>
+<div th:replace="fragments/general :: navbar"></div>
+
+<div class="container">
+
+    <h1>Registered divers</h1>
+    <table class="table-sm table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Certifications</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="diver : ${allDivers}">
+            <td th:text="${diver.displayName}"></td>
+            <td th:text="${diver.diverCertificationString}"></td>
+            <td><a class="btn btn-primary" th:href="@{/diver/edit/{diverId}(diverId=${diver.getDiverId()})}">Edit</a>
+            </td>
+            <td><a class="btn btn-danger" th:href="@{/diver/delete/{diverId}(diverId=${diver.getDiverId()})}">Delete</a>
+            </td>
+        </tr>
+
+
+    </table>
+    <a class="btn btn-primary" href="/diver/new">Add a new Diver</a>
+
+</div>
+<div th:replace="fragments/general :: footer"></div>
+<div th:replace="fragments/general :: bottomScripts"></div>
+</body>
+</html>

@@ -2,6 +2,8 @@ package nl.miwnn.se12.marc.DiveEquipmentRental.controller;
 
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Equipment;
+import nl.miwnn.se12.marc.DiveEquipmentRental.repository.CertificationRepository;
+import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.EquipmentRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,36 +20,45 @@ import java.util.Optional;
  * Handle all requests related to equipment.
  **/
 @Controller
+@RequestMapping({"/", "/equipment"})
 @RequiredArgsConstructor
 public class EquipmentController {
     private final EquipmentRepository equipmentRepository;
+    private final DiverRepository diverRepository;
+    private final CertificationRepository certificationRepository;
 
-    @GetMapping({"/", "./equipment/overview"})
+    @GetMapping({"/", "/overview"})
     private String showEquipment(Model model) {
         model.addAttribute("allEquipment", equipmentRepository.findAll());
+        model.addAttribute("allDivers", diverRepository.findAll());
+        model.addAttribute("certifications", certificationRepository.findAll());
 
         return "equipmentOverview";
     }
 
-    @GetMapping("/equipment/new")
+    @GetMapping("/new")
     private String showEquipmentForm(Model model) {
         model.addAttribute("equipment", new Equipment());
+        model.addAttribute("allDivers", diverRepository.findAll());
+        model.addAttribute("certifications", certificationRepository.findAll());
 
         return "equipmentForm";
     }
 
-    @GetMapping("/equipment/edit/{name}")
+    @GetMapping("/edit/{name}")
     private String showEquipmentEditForm(@PathVariable("name") String name, Model model) {
         Optional<Equipment> equipmentOptional = equipmentRepository.findEquipmentByName(name);
         if (equipmentOptional.isEmpty()) {
-            return "redirect:./equipment/overview";
+            return "redirect:/equipment/overview";
         }
         model.addAttribute("equipment", equipmentOptional.get());
+        model.addAttribute("allDivers", diverRepository.findAll());
+        model.addAttribute("certifications", certificationRepository.findAll());
 
         return "equipmentForm";
     }
 
-    @PostMapping("/equipment/new")
+    @PostMapping("/new")
     private String saveOrUpdateEquipment(@ModelAttribute("equipment") Equipment equipmentToBeSaved,
                                          BindingResult result) {
         if (!result.hasErrors()) {
@@ -57,14 +68,14 @@ public class EquipmentController {
         return "redirect:/";
     }
 
-    @GetMapping("/equipment/details/{name}")
+    @GetMapping("details/{name}")
     private String showEquipmentDetails(@PathVariable("name") String name, Model model) {
         Optional<Equipment> equipmentOptional = equipmentRepository.findEquipmentByName(name);
         if (equipmentOptional.isEmpty()) {
             return "redirect:./equipment/overview";
         }
-
-        model.addAttribute("equipmentDetails", equipmentOptional.get());
+        model.addAttribute("equipment", equipmentOptional.get());
+        model.addAttribute("certifications", certificationRepository.findAll());
         return "equipmentDetails";
     }
 

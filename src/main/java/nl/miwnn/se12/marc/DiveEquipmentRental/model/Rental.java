@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 public class Rental {
+
     @Id
     @GeneratedValue
     private Long rentalId;
@@ -26,4 +27,12 @@ public class Rental {
 
     @ManyToOne
     private Equipment equipment;
+
+
+    public Rental(Equipment equipment) {
+        this.equipment = equipment;
+    }
+
+    public Rental() {
+    }
 }
