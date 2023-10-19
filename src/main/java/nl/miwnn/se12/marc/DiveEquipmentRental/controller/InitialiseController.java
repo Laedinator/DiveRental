@@ -1,14 +1,9 @@
 package nl.miwnn.se12.marc.DiveEquipmentRental.controller;
 
 import lombok.RequiredArgsConstructor;
-import nl.miwnn.se12.marc.DiveEquipmentRental.model.Certification;
-import nl.miwnn.se12.marc.DiveEquipmentRental.model.Diver;
-import nl.miwnn.se12.marc.DiveEquipmentRental.model.Equipment;
-import nl.miwnn.se12.marc.DiveEquipmentRental.model.Rental;
-import nl.miwnn.se12.marc.DiveEquipmentRental.repository.CertificationRepository;
-import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
-import nl.miwnn.se12.marc.DiveEquipmentRental.repository.EquipmentRepository;
-import nl.miwnn.se12.marc.DiveEquipmentRental.repository.RentalRepository;
+import nl.miwnn.se12.marc.DiveEquipmentRental.model.*;
+import nl.miwnn.se12.marc.DiveEquipmentRental.repository.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -26,12 +21,22 @@ public class InitialiseController {
     private final RentalRepository rentalRepository;
     private final DiverRepository diverRepository;
     private final EquipmentRepository equipmentRepository;
+    private final RentalUserRepository rentalUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/initialise")
+    @GetMapping("/initialize")
     private String initialiseDB() {
-        if (!equipmentRepository.findAll().isEmpty()) {
+        if (!rentalUserRepository.findAll().isEmpty()) {
             return "redirect:/";
         }
+
+        RentalUser adminUser = new RentalUser();
+        adminUser.setUsername("admin");
+        adminUser.setPassword(passwordEncoder.encode("admin"));
+        // TODO Enforce the user to select a better password
+        System.err.println("Admin user created, please make sure to change the password");
+        rentalUserRepository.save(adminUser);
+
 
         ArrayList<Certification> certifications = new ArrayList<>();
         certifications.add(new Certification("None"));
@@ -67,7 +72,6 @@ public class InitialiseController {
         divers.add(new Diver("Marc", "", "Ledermann", certifications.get(4)));
 
         diverRepository.saveAll(divers);
-
 
         return "redirect:/";
     }

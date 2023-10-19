@@ -3,7 +3,6 @@ package nl.miwnn.se12.marc.DiveEquipmentRental.controller;
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Equipment;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.CertificationRepository;
-import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.EquipmentRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,13 +23,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EquipmentController {
     private final EquipmentRepository equipmentRepository;
-    private final DiverRepository diverRepository;
     private final CertificationRepository certificationRepository;
 
     @GetMapping({"/", "/overview"})
     private String showEquipment(Model model) {
         model.addAttribute("allEquipment", equipmentRepository.findAll());
-        model.addAttribute("allDivers", diverRepository.findAll());
         model.addAttribute("certifications", certificationRepository.findAll());
 
         return "equipmentOverview";
@@ -39,7 +36,6 @@ public class EquipmentController {
     @GetMapping("/new")
     private String showEquipmentForm(Model model) {
         model.addAttribute("equipment", new Equipment());
-        model.addAttribute("allDivers", diverRepository.findAll());
         model.addAttribute("certifications", certificationRepository.findAll());
 
         return "equipmentForm";
@@ -49,10 +45,9 @@ public class EquipmentController {
     private String showEquipmentEditForm(@PathVariable("name") String name, Model model) {
         Optional<Equipment> equipmentOptional = equipmentRepository.findEquipmentByName(name);
         if (equipmentOptional.isEmpty()) {
-            return "redirect:/equipment/overview";
+            return "redirect:/equipment/";
         }
         model.addAttribute("equipment", equipmentOptional.get());
-        model.addAttribute("allDivers", diverRepository.findAll());
         model.addAttribute("certifications", certificationRepository.findAll());
 
         return "equipmentForm";
@@ -65,7 +60,7 @@ public class EquipmentController {
             equipmentRepository.save(equipmentToBeSaved);
         }
 
-        return "redirect:/";
+        return "redirect:/overview/";
     }
 
     @GetMapping("details/{name}")
@@ -76,7 +71,7 @@ public class EquipmentController {
         }
         model.addAttribute("equipment", equipmentOptional.get());
         model.addAttribute("certifications", certificationRepository.findAll());
-        return "equipmentDetails";
+        return "/equipmentDetails";
     }
 
 }

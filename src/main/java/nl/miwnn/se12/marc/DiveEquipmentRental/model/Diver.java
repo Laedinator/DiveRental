@@ -31,18 +31,17 @@ public class Diver {
     @ManyToMany
     private Set<Certification> certifications = new HashSet<>();
 
-
     public Diver(String firstName, String middleName, String lastName, Certification mpCertification) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        setCertifications(mpCertification);
+        addCertification(mpCertification);
     }
 
     public Diver() {
     }
 
-    public void setCertifications(Certification certification) {
+    public void addCertification(Certification certification) {
         certifications.add(certification);
     }
 

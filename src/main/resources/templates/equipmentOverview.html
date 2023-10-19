@@ -20,7 +20,6 @@
             <th>Minimal<br>Certification</th>
             <th>Available</th>
             <th>Add Rental</th>
-            <th>Rented By</th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -34,16 +33,15 @@
             <td th:text="${equipment.numberOfAvailableRentals}"></td>
             <td><a class="btn btn-primary"
                    th:href="@{rental/new/{equipmentId}(equipmentId=${equipment.equipmentId})}">Add</a></td>
-            <td th:text="${equipment.getAllDiversDisplayString()}"></td>
         </tr>
     </table>
     <br>
     <a class="btn btn-secondary" href="/equipment/new">Add new Equipment</a>
     <br>
     <br>
-    <a class="btn btn-danger" href="/initialise">initialise</a>
+    <a class="btn btn-danger" href="/initialize">initialise</a>
 </div>
 <div th:replace="fragments/general :: footer"></div>
-<div th:replace="fragments/general :: bottomScripts" ></div>
+<div th:replace="fragments/general :: bottomScripts"></div>
 </body>
 </html>

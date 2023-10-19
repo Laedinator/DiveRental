@@ -29,10 +29,7 @@ public class Equipment {
     @ManyToOne
     private Certification certification;
 
-    @ManyToMany
-    private Set<Diver> divers;
-
-    @OneToMany(mappedBy = "equipment")
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
     private Set<Rental> rentals;
 
 
@@ -57,13 +54,5 @@ public class Equipment {
         return count;
     }
 
-    public String getAllDiversDisplayString() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (Diver diver : divers) {
-            stringBuilder.append(diver.getDisplayName()).append(", ");
-        }
-        return stringBuilder.toString();
-    }
 
 }

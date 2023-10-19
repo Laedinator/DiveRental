@@ -13,25 +13,25 @@
             <input type="hidden" th:field="*{equipmentId}">
 
             <div class="col-auto">
-                <label for="equipmentName" class="form-label col-sm-2">Name</label>
-                <input id="equipmentName" type="text" th:field="*{name}"/>
+                <label for="name" class="form-label col-sm-2">Name</label>
+                <input id="name" type="text" th:field="*{name}"/>
             </div>
             <div class="col-auto">
-                <label for="equipmentType" class="form-label col-sm-2">Type </label>
-                <input id="equipmentType" type="text" th:field="*{type}"/>
+                <label for="type" class="form-label col-sm-2">Type </label>
+                <input id="type" type="text" th:field="*{type}"/>
             </div>
             <div class="col-auto">
-                <label for="equipmentSize" class="form-label col-sm-2">Size</label>
-                <input id="equipmentSize" type="text" th:field="*{size}"/>
+                <label for="size" class="form-label col-sm-2">Size</label>
+                <input id="size" type="text" th:field="*{size}"/>
             </div>
             <div class="col-auto">
-                <label for="equipmentBrand" class="form-label col-sm-2">Brand </label>
-                <input id="equipmentBrand" type="text" th:field="*{brand}"/>
+                <label for="brand" class="form-label col-sm-2">Brand </label>
+                <input id="brand" type="text" th:field="*{brand}"/>
             </div>
             <div class="col-lg-1">
                 <label for="certifications" class="form-label col-sm-4">Certifications</label>
                 <div>
-                    <select id="certifications" th:field="${certifications}" multiple>
+                    <select id="certifications" th:field="${equipment.certification}">
                         <option th:each="certification : ${certifications}"
                                 th:value="${certification.certificationId}"
                                 th:text="${certification.name}">

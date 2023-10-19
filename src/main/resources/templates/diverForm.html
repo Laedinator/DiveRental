@@ -28,8 +28,8 @@
             <div class="col-lg-1">
                 <label for="certifications" class="form-label col-sm-4">Certifications</label>
                 <div>
-                    <select id="certifications" th:field="${certifications}" multiple>
-                        <option th:each="certification : ${certifications}"
+                    <select id="certifications" th:field="*{certifications}" multiple>
+                        <option th:each="certification : ${allCertifications}"
                                 th:value="${certification.certificationId}"
                                 th:text="${certification.name}">
                         </option>

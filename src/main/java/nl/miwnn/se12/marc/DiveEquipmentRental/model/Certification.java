@@ -25,8 +25,8 @@ public class Certification {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "certification")
-    private Set<Equipment> equipment;
+    @ManyToMany
+    private Set<Diver> divers = new HashSet<>();
 
     public Certification(String name) {
         this.name = name;

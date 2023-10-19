@@ -18,7 +18,9 @@
         </thead>
         <tbody class="table-group-divider">
         <tr th:each="diver : ${allDivers}">
-            <td th:text="${diver.displayName}"></td>
+            <td><a th:href="@{/diver/details/{diverId}(diverId=${diver.diverId})}"
+                   th:text="${diver.displayName}"></a>
+            </td>
             <td th:text="${diver.diverCertificationString}"></td>
             <td><a class="btn btn-primary" th:href="@{/diver/edit/{diverId}(diverId=${diver.getDiverId()})}">Edit</a>
             </td>

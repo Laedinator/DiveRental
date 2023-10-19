@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Diver;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.CertificationRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
+import nl.miwnn.se12.marc.DiveEquipmentRental.repository.RentalRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,18 +24,19 @@ import java.util.Optional;
 public class DiverController {
     private final DiverRepository diverRepository;
     private final CertificationRepository certificationRepository;
+    private final RentalRepository rentalRepository;
 
     @GetMapping("/all")
     protected String showDiverOverview(Model model) {
         model.addAttribute("allDivers", diverRepository.findAll());
-        model.addAttribute("certifications", certificationRepository.findAll());
+        model.addAttribute("allCertifications", certificationRepository.findAll());
         return "diverOverview";
     }
 
     @GetMapping("/new")
     protected String showDiverForm(Model model) {
         model.addAttribute("diver", new Diver());
-        model.addAttribute("certifications", certificationRepository.findAll());
+        model.addAttribute("allCertifications", certificationRepository.findAll());
         return "diverForm";
     }
 
@@ -45,7 +47,7 @@ public class DiverController {
             return "redirect:/diver/all";
         }
         model.addAttribute("diver", diverOptional.get());
-        model.addAttribute("certifications", certificationRepository.findAll());
+        model.addAttribute("allCertifications", certificationRepository.findAll());
         return "diverForm";
     }
 
@@ -66,6 +68,19 @@ public class DiverController {
         }
         diverRepository.deleteById(diverId);
         return "redirect:/diver/all";
+    }
+
+    @GetMapping("/details/{diverId}")
+    protected String showDiverDetails(@PathVariable("diverId") Long diverId, Model model) {
+        Optional<Diver> diverOptional = diverRepository.findById(diverId);
+        if (diverOptional.isEmpty()) {
+            return "redirect:/diver/all";
+        }
+        model.addAttribute("diver", diverOptional.get());
+        model.addAttribute("allCertifications", certificationRepository.findAll());
+        model.addAttribute("allRentals", rentalRepository.findAll());
+
+        return "diverDetails";
     }
 
 }
