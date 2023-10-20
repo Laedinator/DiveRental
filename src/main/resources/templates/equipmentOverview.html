@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
 <head th:replace="fragments/general :: baseHeader(~{:: title})">
     <title>Equipment Overview</title>
 </head>
@@ -19,7 +19,6 @@
             <th>Brand</th>
             <th>Minimal<br>Certification</th>
             <th>Available</th>
-            <th>Add Rental</th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -31,12 +30,10 @@
             <td th:text="${equipment.brand}"></td>
             <td th:text="${equipment.certification.name}"></td>
             <td th:text="${equipment.numberOfAvailableRentals}"></td>
-            <td><a class="btn btn-primary"
-                   th:href="@{rental/new/{equipmentId}(equipmentId=${equipment.equipmentId})}">Add</a></td>
         </tr>
     </table>
     <br>
-    <a class="btn btn-secondary" href="/equipment/new">Add new Equipment</a>
+    <a sec:authorize="hasRole('ADMIN')" class="btn btn-secondary" href="/equipment/new">Add new Equipment</a>
     <br>
     <br>
     <a class="btn btn-danger" href="/initialize">initialise</a>

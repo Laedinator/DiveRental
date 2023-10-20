@@ -30,6 +30,7 @@ public class RentalEquipmentSecurityConfiguration {
                         .antMatchers("/css/**", "/webjars/**").permitAll()
                         .antMatchers("/initialize").permitAll()
                         .antMatchers("/", "/equipment/overview").permitAll()
+                        .antMatchers("/rental/new", "/diver", "equipment/new").hasAnyRole("ADMIN", "EMPLOYEE")
                         .anyRequest().authenticated())
                 .formLogin().and()
                 .logout().logoutSuccessUrl("/equipment/overview");

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
 <head th:replace="fragments/general :: baseHeader(~{:: title})">
     <title>Diver Overview</title>
 </head>
@@ -24,7 +24,8 @@
             <td th:text="${diver.diverCertificationString}"></td>
             <td><a class="btn btn-primary" th:href="@{/diver/edit/{diverId}(diverId=${diver.getDiverId()})}">Edit</a>
             </td>
-            <td><a class="btn btn-danger" th:href="@{/diver/delete/{diverId}(diverId=${diver.getDiverId()})}">Delete</a>
+            <td><a class="btn btn-danger" sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/diver/delete/{diverId}(diverId=${diver.getDiverId()})}">Delete</a>
             </td>
         </tr>
 

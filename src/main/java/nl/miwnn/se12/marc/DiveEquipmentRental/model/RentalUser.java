@@ -32,11 +32,23 @@ public class RentalUser implements UserDetails {
     private String username;
     private String password;
 
+    private boolean isEmployee = false;
+    private boolean isAdmin = false;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
 
         authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        if (isEmployee) {
+            authorityList.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
+        }
+
+        if (isAdmin) {
+            authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
 
         return authorityList;
     }

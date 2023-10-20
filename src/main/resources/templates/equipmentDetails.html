@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
 <head th:replace="fragments/general :: baseHeader(~{:: title})">
     <title>Equipment-details</title>
 </head>
@@ -28,18 +28,30 @@
         </tr>
     </table>
     <br>
-    <a class="btn btn-primary" th:href="@{/equipment/edit/{equipmentName}(equipmentName=${equipment.name})}">Edit
-        Equipment</a>
+    <p sec:authorize="hasAnyRole('ADMIN','EMPLOYEE')">
+        <a class="btn btn-primary"
+           th:href="@{/equipment/edit/{equipmentName}(equipmentName=${equipment.name})}">Edit
+            Equipment</a>
+    </p>
+    <div sec:authorize="hasRole('ADMIN')">
+        <p>
+            <a class="btn btn-primary" th:href="@{rental/new/{equipmentId}(equipmentId=${equipment.equipmentId})}">
+                Add Rental</a>
+        </p>
+        <p>
+            <a class="btn btn-danger"
+               th:href="@{/equipment/delete/{equipmentId}
+        (equipmentId=${equipment.equipmentId})}">Delete Equipment</a>
+        </p>
+    </div>
 
-    <br>
-    <br>
     <table class="table-sm table-hover">
         <thead>
         <tr>
             <th>ID</th>
             <th>Availability</th>
-            <th>Delete</th>
             <th>Rented by</th>
+            <th sec:authorize="hasRole('ADMIN')">Delete</th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -53,7 +65,15 @@
                 <a class="btn btn-primary"
                    th:href="@{/rental/return/{rentalId}(rentalId=${rental.rentalId})}">Return</a>
             </td>
-            <td><a class="btn btn-danger" th:href="@{/rental/delete/{rentalId}(rentalId=${rental.rentalId})}">Delete</a>
+            <td th:if="${rental.available}">
+                none
+            </td>
+            <td th:unless="${rental.available}">
+                diverID
+            </td>
+            <td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger"
+                                                    th:href="@{/rental/delete/{rentalId}
+                                                    (rentalId=${rental.rentalId})}">Delete</a>
             </td>
             <td>
             </td>

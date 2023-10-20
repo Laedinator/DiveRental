@@ -28,6 +28,11 @@ public class RentalController {
     private final EquipmentRepository equipmentRepository;
     private final RentalRepository rentalRepository;
 
+    @GetMapping({"/","/new"})
+    private String showOverview() {
+        return "redirect:/";
+    }
+
     @GetMapping("/new/{equipmentId}")
     private String createNewRental(@PathVariable("equipmentId") Long equipmentId) {
         Optional<Equipment> equipmentOptional = equipmentRepository.findById(equipmentId);

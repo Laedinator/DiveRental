@@ -2,6 +2,7 @@ package nl.miwnn.se12.marc.DiveEquipmentRental.controller;
 
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Equipment;
+import nl.miwnn.se12.marc.DiveEquipmentRental.model.Rental;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.CertificationRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.EquipmentRepository;
 import org.springframework.stereotype.Controller;
@@ -72,6 +73,17 @@ public class EquipmentController {
         model.addAttribute("equipment", equipmentOptional.get());
         model.addAttribute("certifications", certificationRepository.findAll());
         return "/equipmentDetails";
+    }
+
+    @GetMapping("/delete/{equipmentId}")
+    private String deleteEquipment(@PathVariable("equipmentId") Long equipmentId) {
+        Optional<Equipment> equipmentOptional = equipmentRepository.findById(equipmentId);
+        if (equipmentOptional.isEmpty()) {
+            return "redirect:/";
+        }
+
+        equipmentRepository.deleteById(equipmentId);
+        return "redirect:/";
     }
 
 }

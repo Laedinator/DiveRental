@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,7 +31,7 @@ public class Equipment {
     private Certification certification;
 
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
-    private Set<Rental> rentals;
+    private Set<Rental> rentals = new HashSet<>();
 
 
     public Equipment(String name, String type, String size, String brand, Certification mpCertification) {

@@ -33,9 +33,26 @@ public class InitialiseController {
         RentalUser adminUser = new RentalUser();
         adminUser.setUsername("admin");
         adminUser.setPassword(passwordEncoder.encode("admin"));
+        adminUser.setEmployee(true);
+        adminUser.setAdmin(true);
         // TODO Enforce the user to select a better password
         System.err.println("Admin user created, please make sure to change the password");
         rentalUserRepository.save(adminUser);
+
+        RentalUser instructor = new RentalUser();
+        instructor.setUsername("instructor");
+        instructor.setPassword(passwordEncoder.encode("instructor"));
+        instructor.setEmployee(true);
+        // TODO Enforce the user to select a better password
+        System.err.println("instructor user created, please make sure to change the password");
+        rentalUserRepository.save(instructor);
+
+        RentalUser normalUser = new RentalUser();
+        normalUser.setUsername("user");
+        normalUser.setPassword(passwordEncoder.encode("user"));
+        // TODO Enforce the user to select a better password
+        System.err.println("instructor user created, please make sure to change the password");
+        rentalUserRepository.save(normalUser);
 
 
         ArrayList<Certification> certifications = new ArrayList<>();
