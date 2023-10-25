@@ -3,8 +3,12 @@ package nl.miwnn.se12.marc.DiveEquipmentRental.controller;
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Equipment;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Rental;
+import nl.miwnn.se12.marc.DiveEquipmentRental.model.RentalUser;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.CertificationRepository;
+import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.EquipmentRepository;
+import nl.miwnn.se12.marc.DiveEquipmentRental.repository.RentalRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,9 +29,11 @@ import java.util.Optional;
 public class EquipmentController {
     private final EquipmentRepository equipmentRepository;
     private final CertificationRepository certificationRepository;
+    private final DiverRepository diverRepository;
+    private final RentalRepository rentalRepository;
 
     @GetMapping({"/", "/overview"})
-    private String showEquipment(Model model) {
+    private String showEquipment(@AuthenticationPrincipal RentalUser rentalUser, Model model) {
         model.addAttribute("allEquipment", equipmentRepository.findAll());
         model.addAttribute("certifications", certificationRepository.findAll());
 

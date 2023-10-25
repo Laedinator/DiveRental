@@ -5,6 +5,7 @@ import nl.miwnn.se12.marc.DiveEquipmentRental.model.Diver;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.CertificationRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.RentalRepository;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ public class DiverController {
     private final DiverRepository diverRepository;
     private final CertificationRepository certificationRepository;
     private final RentalRepository rentalRepository;
+
 
     @GetMapping("/all")
     protected String showDiverOverview(Model model) {

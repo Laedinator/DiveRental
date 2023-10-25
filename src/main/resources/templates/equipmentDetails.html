@@ -45,7 +45,7 @@
         </p>
     </div>
 
-    <table class="table-sm table-hover">
+    <table class="table-sm table-hover" sec:authorize="hasAnyRole('ADMIN','EMPLOYEE')">
         <thead>
         <tr>
             <th>ID</th>

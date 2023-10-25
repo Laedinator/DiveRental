@@ -8,7 +8,9 @@
 <div th:replace="fragments/general :: navbar"></div>
 
 <div class="container">
-    <h1>We have the following available:</h1>
+
+    <h1>Hello <span th:text="${#authentication.name}">Name</span></h1>
+    <h3>We have the following available:</h3>
 
     <table class="table-sm table-hover">
         <thead>
@@ -30,6 +32,7 @@
             <td th:text="${equipment.brand}"></td>
             <td th:text="${equipment.certification.name}"></td>
             <td th:text="${equipment.numberOfAvailableRentals}"></td>
+            <td th:if="${equipment.numberOfAvailableRentals > 0}" th:text="borrow"></td>
         </tr>
     </table>
     <br>

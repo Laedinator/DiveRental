@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,7 +28,7 @@ public class Certification {
     private String name;
 
     @ManyToMany
-    private Set<Diver> divers = new HashSet<>();
+    private List<Diver> divers = new ArrayList<>();
 
     public Certification(String name) {
         this.name = name;

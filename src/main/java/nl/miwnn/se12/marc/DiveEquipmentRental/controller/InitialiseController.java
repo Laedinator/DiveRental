@@ -54,6 +54,13 @@ public class InitialiseController {
         System.err.println("instructor user created, please make sure to change the password");
         rentalUserRepository.save(normalUser);
 
+        RentalUser maxUser = new RentalUser();
+        maxUser.setUsername("max");
+        maxUser.setPassword(passwordEncoder.encode("max"));
+        // TODO Enforce the user to select a better password
+        System.err.println("max user created, please make sure to change the password");
+        //saving later as we have to add a diver to him to link the diver.
+
 
         ArrayList<Certification> certifications = new ArrayList<>();
         certifications.add(new Certification("None"));
@@ -87,9 +94,10 @@ public class InitialiseController {
         divers.add(new Diver("Ursula", "", "Meier", certifications.get(2)));
         divers.add(new Diver("Kurt", "", "Meier", certifications.get(2)));
         divers.add(new Diver("Marc", "", "Ledermann", certifications.get(4)));
-
         diverRepository.saveAll(divers);
 
+        maxUser.setDiver(diverRepository.findById(20L).get());
+        rentalUserRepository.save(maxUser);
         return "redirect:/";
     }
 
