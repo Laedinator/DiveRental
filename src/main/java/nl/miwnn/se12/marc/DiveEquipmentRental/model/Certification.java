@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 
 /**
  * @author Marc Ledermann
@@ -21,14 +18,11 @@ import java.util.Set;
 public class Certification {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long certificationId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
-
-    @ManyToMany
-    private List<Diver> divers = new ArrayList<>();
 
     public Certification(String name) {
         this.name = name;

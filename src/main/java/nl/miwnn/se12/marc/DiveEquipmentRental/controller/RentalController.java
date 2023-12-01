@@ -3,7 +3,6 @@ package nl.miwnn.se12.marc.DiveEquipmentRental.controller;
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Equipment;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Rental;
-import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.EquipmentRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.RentalRepository;
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,7 @@ public class RentalController {
     private final EquipmentRepository equipmentRepository;
     private final RentalRepository rentalRepository;
 
-    @GetMapping({"/","/new"})
+    @GetMapping({"/", "/new"})
     private String showOverview() {
         return "redirect:/";
     }
@@ -43,7 +42,7 @@ public class RentalController {
             rentalRepository.save(rental);
         }
 
-        return "redirect:/";
+        return String.format("redirect:/details/%s", equipmentOptional.get().getName());
     }
 
     @GetMapping("/delete/{rentalId}")

@@ -1,7 +1,7 @@
 package nl.miwnn.se12.marc.DiveEquipmentRental.service;
 
 import lombok.RequiredArgsConstructor;
-import nl.miwnn.se12.marc.DiveEquipmentRental.repository.RentalUserRepository;
+import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 @RequiredArgsConstructor
-public class DiveRentalUserDetailsService implements UserDetailsService {
+public class DiverDetailsService implements UserDetailsService {
 
-    private final RentalUserRepository rentalUserRepository;
+    private final DiverRepository diverRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return rentalUserRepository.findRentalUserByUsername(username).orElseThrow(
+        return diverRepository.findRentalUserByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException(String.format("User: %s does not exist", username))
         );
     }

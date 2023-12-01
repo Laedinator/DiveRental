@@ -1,16 +1,18 @@
 package nl.miwnn.se12.marc.DiveEquipmentRental.controller;
 
 import lombok.RequiredArgsConstructor;
+import nl.miwnn.se12.marc.DiveEquipmentRental.dto.DiverDto;
 import nl.miwnn.se12.marc.DiveEquipmentRental.model.Diver;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.CertificationRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.DiverRepository;
 import nl.miwnn.se12.marc.DiveEquipmentRental.repository.RentalRepository;
-import org.springframework.security.core.parameters.P;
-import org.springframework.stereotype.Controller;
+import nl.miwnn.se12.marc.DiveEquipmentRental.service.DiverService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,40 +21,26 @@ import java.util.Optional;
  * Purpose of the program:
  * Handles everthing abot the Diver.
  **/
-@Controller
-@RequestMapping("/diver")
+@RestController
+@RequestMapping("/api/diver")
 @RequiredArgsConstructor
 public class DiverController {
     private final DiverRepository diverRepository;
-    private final CertificationRepository certificationRepository;
-    private final RentalRepository rentalRepository;
-
+    private final DiverService diverService;
 
     @GetMapping("/all")
-    protected String showDiverOverview(Model model) {
-        model.addAttribute("allDivers", diverRepository.findAll());
-        model.addAttribute("allCertifications", certificationRepository.findAll());
-        return "diverOverview";
+    public ResponseEntity<List<DiverDto>> allDiverDtos() {
+        return ResponseEntity.ok(diverService.findAllDivers());
     }
 
-    @GetMapping("/new")
-    protected String showDiverForm(Model model) {
-        model.addAttribute("diver", new Diver());
-        model.addAttribute("allCertifications", certificationRepository.findAll());
-        return "diverForm";
+    @PutMapping("/update")
+    public ResponseEntity<?> editDiver(@RequestBody DiverDto diverDto) {
+        diverService.saveOrUpdateDiver(diverDto);
+        return ResponseEntity.ok("updated diver.");
     }
 
-    @GetMapping("/edit/{diverId}")
-    protected String showDiverEditForm(@PathVariable("diverId") Long diverId, Model model) {
-        Optional<Diver> diverOptional = diverRepository.findById(diverId);
-        if (diverOptional.isEmpty()) {
-            return "redirect:/diver/all";
-        }
-        model.addAttribute("diver", diverOptional.get());
-        model.addAttribute("allCertifications", certificationRepository.findAll());
-        return "diverForm";
-    }
 
+    //TODO: Add Service Layer.
     @PostMapping("/new")
     protected String saveOrUpdateDiver(@ModelAttribute("diver") Diver diver, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
@@ -72,17 +60,9 @@ public class DiverController {
         return "redirect:/diver/all";
     }
 
-    @GetMapping("/details/{diverId}")
-    protected String showDiverDetails(@PathVariable("diverId") Long diverId, Model model) {
-        Optional<Diver> diverOptional = diverRepository.findById(diverId);
-        if (diverOptional.isEmpty()) {
-            return "redirect:/diver/all";
-        }
-        model.addAttribute("diver", diverOptional.get());
-        model.addAttribute("allCertifications", certificationRepository.findAll());
-        model.addAttribute("allRentals", rentalRepository.findAll());
-
-        return "diverDetails";
+    @GetMapping("/get/{diverId}")
+    public ResponseEntity<DiverDto> diverDto(@PathVariable("diverId") long diverId) {
+        return ResponseEntity.ok(diverService.findDiverById(diverId));
     }
 
 }

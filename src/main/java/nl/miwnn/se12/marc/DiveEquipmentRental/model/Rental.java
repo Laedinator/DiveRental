@@ -3,10 +3,7 @@ package nl.miwnn.se12.marc.DiveEquipmentRental.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * @author Marc Ledermann
@@ -20,14 +17,13 @@ import javax.persistence.ManyToOne;
 public class Rental {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rentalId;
 
     private Boolean available = true;
 
     @ManyToOne
     private Equipment equipment;
-
 
     public Rental(Equipment equipment) {
         this.equipment = equipment;
